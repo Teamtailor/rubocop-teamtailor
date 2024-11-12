@@ -1,11 +1,11 @@
 # frozen_string_literal: true
 
-require 'rubocop'
+require "rubocop"
 
-require_relative 'rubocop/teamtailor'
-require_relative 'rubocop/teamtailor/version'
-require_relative 'rubocop/teamtailor/inject'
+require_relative "rubocop/teamtailor"
+require_relative "rubocop/teamtailor/version"
+require_relative "rubocop/teamtailor/inject"
 
 RuboCop::Teamtailor::Inject.defaults!
 
-require_relative 'rubocop/cop/teamtailor_cops'
+require_relative "rubocop/cop/teamtailor_cops"
