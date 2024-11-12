@@ -3,11 +3,11 @@
 module RuboCop
   module Cop
     module Teamtailor
-      class NoHasManyInActiveModelSerializer < Base
+      class NoEmbeddingsInActiveModelSerializer < Base
         MSG = "No embedding of records"
 
         def_node_matcher :no_has_many?, <<~PATTERN
-          (send nil? :has_many ...)
+          (send nil? {:has_many | :has_one} ...)
         PATTERN
 
         def on_class(class_node)

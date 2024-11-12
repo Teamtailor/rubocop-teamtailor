@@ -1,6 +1,6 @@
 # Write it!
 
-Teamtailor/NoHasManyInActiveModelSerializer:
+Teamtailor/NoEmbeddingsInActiveModelSerializer:
   Description: "TODO: Write a description of the cop."
   Enabled: true
   VersionAdded: "<<next>>"
