@@ -4,7 +4,7 @@ RSpec.describe RuboCop::Cop::Teamtailor::NoEmbeddingsInActiveModelSerializer, :c
   let(:config) { RuboCop::Config.new }
 
   context "when in a serializer" do
-    it "registers an offense when using `has_many`" do
+    it "registers an offense when using `has_many` with embed" do
       expect_offense(<<~RUBY)
         class FooSerializer < ActiveModel::Serializer
           has_many :locations, embed: :ids
@@ -13,11 +13,29 @@ RSpec.describe RuboCop::Cop::Teamtailor::NoEmbeddingsInActiveModelSerializer, :c
       RUBY
     end
 
-    it "registers an offense when using `has_one`" do
+    it "registers an offense when using `has_many` with embed_in_root" do
+      expect_offense(<<~RUBY)
+        class FooSerializer < ActiveModel::Serializer
+          has_many :locations, embed_in_root: true
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Teamtailor/NoEmbeddingsInActiveModelSerializer: No embedding of records
+        end
+      RUBY
+    end
+
+    it "registers an offense when using `has_one` with embed_in_root" do
       expect_offense(<<~RUBY)
         class FooSerializer < ActiveModel::Serializer
           has_one :location, embed_in_root: true
           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Teamtailor/NoEmbeddingsInActiveModelSerializer: No embedding of records
+        end
+      RUBY
+    end
+
+    it "registers an offense when using `has_one` with embed" do
+      expect_offense(<<~RUBY)
+        class FooSerializer < ActiveModel::Serializer
+          has_one :location, embed: :ids
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^ Teamtailor/NoEmbeddingsInActiveModelSerializer: No embedding of records
         end
       RUBY
     end
@@ -33,7 +51,7 @@ RSpec.describe RuboCop::Cop::Teamtailor::NoEmbeddingsInActiveModelSerializer, :c
       RUBY
     end
 
-    it "registers offenses for both `has_many` and `has_one`" do
+    it "registers offenses for both `has_many` and `has_one` with embed" do
       expect_offense(<<~RUBY)
         class FooSerializer < ActiveModel::Serializer
           has_many :locations, embed: :ids
@@ -48,6 +66,15 @@ RSpec.describe RuboCop::Cop::Teamtailor::NoEmbeddingsInActiveModelSerializer, :c
       expect_no_offenses(<<~RUBY)
         class FooSerializer < ActiveModel::Serializer
           attributes :location_ids
+        end
+      RUBY
+    end
+
+    it "does not register an offence when no has_one/has_many without embedding" do
+      expect_no_offenses(<<~RUBY)
+        class FooSerializer < OjSerializer
+          has_many :locations, serializer: LocationSerializer
+          has_one :candidate, serializer: CandidateSerializer
         end
       RUBY
     end
