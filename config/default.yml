@@ -1,5 +1,12 @@
 # Write it!
 
+Teamtailor/AlphabeticalSerializerAttributes:
+  Description: "Serializer attributes should be in alphabetical order."
+  Enabled: true
+  Include:
+    - "app/serializers/**/*.rb"
+  VersionAdded: "<<next>>"
+
 Teamtailor/NoEmbeddingsInActiveModelSerializer:
   Description: "TODO: Write a description of the cop."
   Enabled: true
