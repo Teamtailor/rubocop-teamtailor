@@ -1,7 +1,7 @@
 PATH
   remote: .
   specs:
-    rubocop-teamtailor (0.3.2)
+    rubocop-teamtailor (0.3.3)
       rubocop
 
 GEM
